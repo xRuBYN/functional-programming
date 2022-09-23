@@ -9,22 +9,28 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class UserServiceImpl implements UserService {
 
     @Override
     public List<String> getFirstNamesReverseSorted(List<User> users) {
-        throw new UnsupportedOperationException("Not implemented");
+        List<String> listOfName = users.stream().map(x -> x.getFirstName()).collect(Collectors.toList());
+        return listOfName.stream().sorted((String u1, String u2) -> (u2.compareTo(u1))).collect(Collectors.toList());
     }
 
     @Override
     public List<User> sortByAgeDescAndNameAsc(final List<User> users) {
-        throw new UnsupportedOperationException("Not implemented");
+        List<User> list = users.stream().sorted((User u1,User u2) ->(u1.getFirstName().compareTo(u2.getFirstName()))).sorted((User u1, User u2) -> u2.getAge().
+                compareTo(u1.getAge())).collect(Collectors.toList());
+        return list;
     }
 
     @Override
     public List<Privilege> getAllDistinctPrivileges(final List<User> users) {
-        throw new UnsupportedOperationException("Not implemented");
+        List<List<Privilege>> list = users.stream().map(x -> x.getPrivileges()).collect(Collectors.toList());
+        List<Privilege> list1 = list.stream().flatMap(x -> x.stream().distinct()).distinct().collect(Collectors.toList());
+        return list1;
     }
 
     @Override
