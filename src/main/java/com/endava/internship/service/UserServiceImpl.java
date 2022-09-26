@@ -3,9 +3,6 @@ package com.endava.internship.service;
 import com.endava.internship.domain.Privilege;
 import com.endava.internship.domain.User;
 import org.apache.commons.lang3.tuple.Pair;
-
-import javax.print.DocFlavor;
-import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
