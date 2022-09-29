@@ -26,8 +26,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> sortByAgeDescAndNameAsc(final List<User> users) {
         return users.stream()
-                .sorted(Comparator.comparing(User::getFirstName))
-                .sorted(Comparator.comparing(User::getAge).reversed())
+                .sorted(Comparator.comparing(User::getAge).reversed().thenComparing(User::getFirstName))
                 .collect(Collectors.toList());
     }
 
@@ -35,7 +34,7 @@ public class UserServiceImpl implements UserService {
     public List<Privilege> getAllDistinctPrivileges(final List<User> users) {
         return users.stream()
                 .map(User::getPrivileges)
-                .flatMap(p -> p.stream().distinct())
+                .flatMap(List::stream)
                 .distinct()
                 .collect(Collectors.toList());
 
