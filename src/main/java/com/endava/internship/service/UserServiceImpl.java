@@ -66,12 +66,12 @@ public class UserServiceImpl implements UserService {
         Map<String,Integer> map = users.stream()
                 .map(u-> Pair.of(u.getLastName(),1))
                 .collect(Collectors.groupingBy(Pair::getKey, Collectors.summingInt(Pair::getValue)));
-        if(map.values().stream().distinct().collect(Collectors.toList()).size() == 1) {
+        if(map.values().stream().distinct().count() == 1) {
             return Optional.empty();
         }
         Optional<Map.Entry<String, Integer>> maxEntry = map.entrySet()
                 .stream()
-                .max(Comparator.comparing(Map.Entry::getValue));
+                .max(Map.Entry.comparingByValue());
         return Optional.ofNullable(maxEntry.get().getKey());
     }
 
@@ -101,7 +101,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String, Long> getNumberOfLastNames(final List<User> users) {
         return users.stream()
-                .map(u -> Pair.of(u.getLastName(), 1))
-                .collect(Collectors.groupingBy(Pair::getKey,Collectors.summingLong(Pair::getValue)));
+                .collect(Collectors.groupingBy(User::getLastName, Collectors.counting()));
     }
 }
